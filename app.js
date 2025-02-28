@@ -34,7 +34,26 @@ Task Schema
 
 // get all the tasks
 app.get("/api/v1/tasks", (req, res) => {
-  res.json(taskData);
+  const { status, sortBy } = req.query;
+
+  let filteredTasks = taskData.tasks;
+
+  // filter tasks by status
+  if (status) {
+    let statusValue = status.toLowerCase() === "completed";
+    filteredTasks = taskData.tasks.filter(
+      (task) => task.completed === statusValue,
+    );
+  }
+
+  // sorting by creation date
+  if (sortBy && sortBy.toLowerCase() === "desc") {
+    filteredTasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  } else {
+    filteredTasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  }
+
+  res.json(filteredTasks);
 });
 
 // get single task by its id
@@ -122,6 +141,15 @@ app.delete("/api/v1/tasks/:id", (req, res) => {
 
   taskData.tasks.splice(taskIndex, 1);
   res.json({ message: "Task deleted successfully" });
+});
+
+// get all tasks based on priority
+app.get("/api/v1/tasks/priority/:priority", (req, res) => {
+  const priority = req.params.priority;
+
+  const tasks = taskData.tasks.filter((task) => task.priority === priority);
+
+  res.json(tasks);
 });
 
 app.listen(port, (err) => {
