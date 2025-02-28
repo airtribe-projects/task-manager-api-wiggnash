@@ -10,7 +10,7 @@
     "test": "tap test/*.js --disable-coverage"
   },
   "author": "Airtribe",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "nodemon": "^3.1.9",
     "supertest": "^6.3.4",
