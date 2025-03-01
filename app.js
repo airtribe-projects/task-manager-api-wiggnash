@@ -33,7 +33,7 @@ Task Schema
 */
 
 // get all the tasks
-app.get("/api/v1/tasks", (req, res) => {
+app.get("/tasks", (req, res) => {
   const { status, sortBy } = req.query;
 
   let filteredTasks = taskData.tasks;
@@ -57,7 +57,7 @@ app.get("/api/v1/tasks", (req, res) => {
 });
 
 // get single task by its id
-app.get("/api/v1/tasks/:id", (req, res) => {
+app.get("/tasks/:id", (req, res) => {
   const taskId = parseInt(req.params.id);
   const task = taskData.tasks.find((task) => task.id === taskId);
 
@@ -71,7 +71,7 @@ app.get("/api/v1/tasks/:id", (req, res) => {
 });
 
 // create a new task
-app.post("/api/v1/tasks", (req, res) => {
+app.post("/tasks", (req, res) => {
   const newTask = req.body;
 
   // validation for the title and description
@@ -89,11 +89,11 @@ app.post("/api/v1/tasks", (req, res) => {
 
   // push the new task into the taskList
   taskData.tasks.push(newTask);
-  res.json(newTask);
+  res.status(201).json(newTask);
 });
 
 // update an existing task by its ID : use to change the status to completed
-app.patch("/api/v1/tasks/:id", (req, res) => {
+app.patch("/tasks/:id", (req, res) => {
   const taskId = parseInt(req.params.id);
   const task = taskData.tasks.find((task) => task.id === taskId);
 
@@ -109,7 +109,7 @@ app.patch("/api/v1/tasks/:id", (req, res) => {
 });
 
 // update an existing task by its ID: update the details of the task
-app.put("/api/v1/tasks/:id", (req, res) => {
+app.put("/tasks/:id", (req, res) => {
   const taskId = parseInt(req.params.id);
   const task = taskData.tasks.find((task) => task.id === taskId);
   const updatedTask = req.body;
@@ -130,7 +130,7 @@ app.put("/api/v1/tasks/:id", (req, res) => {
 });
 
 // delete an existing task by its ID
-app.delete("/api/v1/tasks/:id", (req, res) => {
+app.delete("/tasks/:id", (req, res) => {
   const taskId = parseInt(req.params.id);
   const taskIndex = taskData.tasks.findIndex((task) => task.id === taskId);
 
@@ -144,7 +144,7 @@ app.delete("/api/v1/tasks/:id", (req, res) => {
 });
 
 // get all tasks based on priority
-app.get("/api/v1/tasks/priority/:priority", (req, res) => {
+app.get("/tasks/priority/:priority", (req, res) => {
   const priority = req.params.priority;
 
   const tasks = taskData.tasks.filter((task) => task.priority === priority);
@@ -158,3 +158,5 @@ app.listen(port, (err) => {
   }
   console.log(`Server is listening on ${port}`);
 });
+
+export default app;
