@@ -121,11 +121,18 @@ app.put("/tasks/:id", (req, res) => {
     return;
   }
 
+  // validate the completed field to be boolean
+  if (typeof updatedTask.completed !== "boolean") {
+    res.status(400).json({ error: "Invalid completed field" });
+    return;
+  }
+
   // update the necessary fields
   task.title = updatedTask.title;
   task.description = updatedTask.description;
   task.priority = updatedTask.priority;
   task.dueDate = updatedTask.dueDate;
+  task.completed = updatedTask.completed;
   task.updatedAt = new Date();
 
   res.json(task);
