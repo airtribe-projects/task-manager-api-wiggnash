@@ -100,7 +100,7 @@ app.patch("/tasks/:id", (req, res) => {
   const task = taskData.tasks.find((task) => task.id === taskId);
 
   if (!task) {
-    res.send(404).json({ error: "Task not found" });
+    res.status(404).json({ error: "Task not found" });
     return;
   }
 
@@ -117,7 +117,7 @@ app.put("/tasks/:id", (req, res) => {
   const updatedTask = req.body;
 
   if (!task) {
-    res.send(404).json({ error: "Task not found" });
+    res.status(404).json({ error: "Task not found" });
     return;
   }
 
