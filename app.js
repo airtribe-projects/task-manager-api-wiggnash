@@ -117,7 +117,7 @@ app.put("/tasks/:id", (req, res) => {
   const updatedTask = req.body;
 
   if (!task) {
-    res.status(404).json({ error: "Task not found" });
+    res.send(404).json({ error: "Task not found" });
     return;
   }
 
