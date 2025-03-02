@@ -3,20 +3,22 @@ import express from "express";
 import fs from "fs";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // reading file synchronosuly
-// const taskData = JSON.parse(fs.readFileSync("./task.json", "utf8"));
+const taskData = JSON.parse(fs.readFileSync("./task.json", "utf8"));
 
 // reading file asynchronously
-let taskData;
-fs.readFile("./task.json", "utf8", (err, data) => {
-  if (err) throw err;
-  taskData = JSON.parse(data);
-});
+// let taskData;
+// fs.readFile("./task.json", "utf8", (err, data) => {
+//   if (err) throw err;
+//   taskData = JSON.parse(data);
+// });
+
+let taskId = taskData ? taskData.tasks.length + 1 : 1;
 
 /*
 Task Schema
@@ -82,7 +84,7 @@ app.post("/tasks", (req, res) => {
   }
 
   // population of the task object
-  newTask.id = taskData.tasks.length + 1;
+  newTask.id = taskId++;
   newTask.completed = false; // setting the default completed status to false
   newTask.createdAt = new Date();
   newTask.updatedAt = new Date();
